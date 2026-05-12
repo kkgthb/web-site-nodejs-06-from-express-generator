@@ -1,16 +1,17 @@
 {
-  "name": "src",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
-  }
+    "scripts": {
+        "build": "npm run donodemodulesstuff && npm run copyfilestodist && npm run removetemp",
+        "donodemodulesstuff": "npm run copypackagejsontotemp && npm run installproductionnodemodules",
+        "copypackagejsontotemp": "shx mkdir -p ./temp && shx cp ./package.json ./temp/package.json",
+        "installproductionnodemodules": "cd ./temp && npm install --production",
+        "copyfilestodist": "shx cp -r ./src/web/ ./dist && shx cp -r ./temp/node_modules/ ./dist/node_modules/ && shx rm -rf ./dist/web",
+        "removetemp": "shx rm -rf ./temp",
+        "start": "node ./dist/server.js"
+    },
+    "dependencies": {
+        "express": "latest"
+    },
+    "devDependencies": {
+        "shx": "latest"
+    }
 }
